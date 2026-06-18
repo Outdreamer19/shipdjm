@@ -17,6 +17,7 @@ use App\Models\Package;
 use App\Models\PreAlert;
 use App\Models\User;
 use App\Services\ActivityLogger;
+use App\Services\InvoiceFeed\InvoiceFeedClient;
 use App\Services\PackageChargeCalculator;
 use App\Services\PackageReferenceGenerator;
 use App\Services\PackageStatusRecorder;
@@ -215,7 +216,7 @@ class PackageController extends Controller
                 fn (PaymentMethod $m) => [$m->value => $m->label()],
             ),
             'currency' => config('shipdjm.currency'),
-            'invoiceFeedEnabled' => (bool) config('invoicefeed.enabled'),
+            'invoiceFeedEnabled' => app(InvoiceFeedClient::class)->isEnabled(),
             'billingRoutes' => [
                 'generateInvoice' => route('admin.packages.billing.generate-invoice', $package),
                 'sendInvoice' => route('admin.packages.billing.send-invoice', $package),

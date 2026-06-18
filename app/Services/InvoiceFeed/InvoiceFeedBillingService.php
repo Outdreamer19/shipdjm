@@ -52,7 +52,7 @@ class InvoiceFeedBillingService
         $response = $this->client->sendInvoice($invoiceId);
         $status = strtolower((string) ($this->client->extractStatus($response) ?? ''));
 
-        $billingStatus = in_array($status, ['payment_pending', 'pending', 'awaiting_payment'], true)
+        $billingStatus = in_array($status, ['payment_pending', 'pending', 'awaiting_payment', 'sent'], true)
             ? BillingStatus::PaymentPending
             : BillingStatus::InvoiceSent;
 
