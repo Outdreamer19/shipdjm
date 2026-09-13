@@ -238,14 +238,13 @@ const mobileOpen = ref(false);
                     <p>© {{ new Date().getFullYear() }} Ship'd JM. All rights reserved.</p>
                     <p>
                         Built for Jamaica · Pickup only · JMD shipping rates ·
-                        Digital partner:
                         <a
                             href="https://quantaradigital.co.uk"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-brand-green-soft underline underline-offset-2"
+                            class="transition hover:text-brand-cream"
                         >
-                            Quantara Digital
+                            Designed and built by Quantara Digital
                         </a>
                     </p>
                 </div>

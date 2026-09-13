@@ -182,6 +182,10 @@ class InvoiceFeedClient
                 ->acceptJson()
                 ->timeout(30);
 
+            if (app()->environment('local')) {
+                $pending = $pending->withoutVerifying();
+            }
+
             $response = match (strtolower($method)) {
                 'get' => $pending->get($url),
                 'post' => $pending->post($url, $payload),
