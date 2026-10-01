@@ -31,5 +31,7 @@ createInertiaApp({
     },
 });
 
-initializeTheme();
-initializeFlashToast();
+if (typeof window !== 'undefined') {
+    initializeTheme();
+    initializeFlashToast();
+}

@@ -11,6 +11,10 @@ const emit = defineEmits<{
 }>();
 
 const getDefaultPasskeyName = () => {
+    if (typeof navigator === 'undefined') {
+        return '';
+    }
+
     const ua = navigator.userAgent;
 
     const browser = ['Chrome', 'Firefox', 'Safari', 'Edge', 'Opera'].find(
