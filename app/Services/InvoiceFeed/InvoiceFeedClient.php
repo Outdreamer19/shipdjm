@@ -211,19 +211,67 @@ class InvoiceFeedClient
                 'payload' => $payload,
             ]);
 
-            $message = is_array($responseBody)
-                ? ($responseBody['message'] ?? $responseBody['error'] ?? 'InvoiceFeed request failed.')
-                : 'InvoiceFeed request failed.';
+            $message = $this->extractErrorMessage($responseBody);
 
             throw new InvoiceFeedException(
-                (string) $message,
-                'We could not complete that billing action. Please try again or check the logs.',
+                $message,
+                $this->userFacingErrorMessage($message, $status),
                 [
                     'status' => $status,
                     'response' => $responseBody,
                 ],
             );
+        } catch (\Illuminate\Http\Client\ConnectionException $exception) {
+            Log::error('InvoiceFeed API connection failed', [
+                'method' => strtoupper($method),
+                'url' => $url,
+                'message' => $exception->getMessage(),
+            ]);
+
+            throw new InvoiceFeedException(
+                $exception->getMessage(),
+                'Could not reach InvoiceFeed. Check INVOICEFEED_API_URL and server connectivity.',
+            );
         }
+    }
+
+    /**
+     * @param  array<string, mixed>|null  $responseBody
+     */
+    private function extractErrorMessage(?array $responseBody): string
+    {
+        if (! is_array($responseBody)) {
+            return 'InvoiceFeed request failed.';
+        }
+
+        if (filled($responseBody['message'] ?? null)) {
+            return (string) $responseBody['message'];
+        }
+
+        if (filled($responseBody['error'] ?? null)) {
+            return (string) $responseBody['error'];
+        }
+
+        if (isset($responseBody['errors']) && is_array($responseBody['errors'])) {
+            $first = collect($responseBody['errors'])->flatten()->first();
+
+            if (filled($first)) {
+                return (string) $first;
+            }
+        }
+
+        return 'InvoiceFeed request failed.';
+    }
+
+    private function userFacingErrorMessage(string $message, ?int $status): string
+    {
+        if ($message === 'InvoiceFeed request failed.') {
+            return 'We could not complete that billing action. Please try again or check the logs.';
+        }
+
+        $prefix = $status !== null ? "InvoiceFeed ({$status}): " : 'InvoiceFeed: ';
+
+        return $prefix.$message;
     }
 
     /**
