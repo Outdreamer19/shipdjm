@@ -236,17 +236,7 @@ const mobileOpen = ref(false);
                     class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-brand-cream/60 sm:flex-row sm:px-6 lg:px-8"
                 >
                     <p>© {{ new Date().getFullYear() }} Ship'd JM. All rights reserved.</p>
-                    <p>
-                        Built for Jamaica · Pickup only · JMD shipping rates ·
-                        <a
-                            href="https://quantaradigital.co.uk"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="transition hover:text-brand-cream"
-                        >
-                            Designed and built by Quantara Digital
-                        </a>
-                    </p>
+                    <p>Built for Jamaica · Pickup only · JMD shipping rates</p>
                 </div>
             </div>
         </footer>
