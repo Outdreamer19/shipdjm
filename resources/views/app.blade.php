@@ -43,7 +43,7 @@
     <body class="font-sans antialiased">
         <x-inertia::app />
         <footer class="px-4 py-4 text-center text-xs text-muted-foreground">
-            <a href="https://quantaradigital.co.uk" target="_blank" rel="noopener noreferrer" class="transition hover:text-foreground">Designed and built by Quantara Digital</a>
+            <a href="https://quantaradigital.co.uk" class="transition hover:text-foreground">Designed and built by Quantara Digital</a>
         </footer>
     </body>
 </html>
